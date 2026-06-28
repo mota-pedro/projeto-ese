@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://bkp8hyiiprknt"]
+
+[ext_resource type="Script" uid="uid://bveqqwjobwv3c" path="res://main.gd" id="1_rjvj7"]
+[ext_resource type="Script" uid="uid://b6kjg6mi7x20" path="res://character_body_2d.gd" id="1_xdcq0"]
+[ext_resource type="Texture2D" uid="uid://ce4gw13b618tf" path="res://icon.svg" id="2_b5s3y"]
+[ext_resource type="Script" uid="uid://c5t4jonym6tbh" path="res://game_manager.gd" id="3_b5s3y"]
+[ext_resource type="Script" uid="uid://clvrano5ahshr" path="res://hud.gd" id="4_dlo7n"]
+[ext_resource type="Script" uid="uid://cyqabwgah4uay" path="res://obstacle_spawner.gd" id="6_yrh4r"]
+[ext_resource type="PackedScene" uid="uid://8wod3jgrrnpe" path="res://obstacle.tscn" id="7_rugj3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hq41x"]
+size = Vector2(127, 127)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5xgwg"]
+size = Vector2(4248, 174)
+
+[node name="Node2D" type="Node2D" unique_id=2001953512 groups=["player"]]
+position = Vector2(108, 75)
+script = ExtResource("1_rjvj7")
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=105905917 groups=["player"]]
+script = ExtResource("1_xdcq0")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=1828375546]
+texture = ExtResource("2_b5s3y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1325596672]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_hq41x")
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1965716381]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=2126220925]
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D" unique_id=1167506882]
+position = Vector2(2014.5001, 489.25)
+scale = Vector2(33.148438, 1.3476563)
+texture = ExtResource("2_b5s3y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=842279519]
+position = Vector2(2014, 487)
+shape = SubResource("RectangleShape2D_5xgwg")
+
+[node name="GameManager" type="Node" parent="." unique_id=992786881]
+script = ExtResource("3_b5s3y")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1461311545]
+script = ExtResource("4_dlo7n")
+
+[node name="TimerLabel" type="Label" parent="HUD" unique_id=575473812]
+offset_left = 1041.0
+offset_top = 18.0
+offset_right = 1128.0
+offset_bottom = 64.0
+horizontal_alignment = 2
+
+[node name="LifeLabel" type="Label" parent="HUD" unique_id=1808389047]
+offset_left = 15.0
+offset_top = 14.0
+offset_right = 122.0
+offset_bottom = 61.0
+
+[node name="MessageLabel" type="Label" parent="HUD" unique_id=369901950]
+offset_left = 358.0
+offset_top = 212.0
+offset_right = 711.0
+offset_bottom = 341.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ObstacleSpawner" type="Node2D" parent="." unique_id=1693665629]
+script = ExtResource("6_yrh4r")
+obstacle_scene = ExtResource("7_rugj3")
