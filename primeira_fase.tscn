@@ -1,73 +1,106 @@
 [gd_scene format=3 uid="uid://bkp8hyiiprknt"]
 
-[ext_resource type="Script" uid="uid://bveqqwjobwv3c" path="res://main.gd" id="1_rjvj7"]
-[ext_resource type="Script" uid="uid://b6kjg6mi7x20" path="res://character_body_2d.gd" id="1_xdcq0"]
-[ext_resource type="Texture2D" uid="uid://ce4gw13b618tf" path="res://icon.svg" id="2_b5s3y"]
-[ext_resource type="Script" uid="uid://c5t4jonym6tbh" path="res://game_manager.gd" id="3_b5s3y"]
-[ext_resource type="Script" uid="uid://clvrano5ahshr" path="res://hud.gd" id="4_dlo7n"]
-[ext_resource type="Script" uid="uid://cyqabwgah4uay" path="res://obstacle_spawner.gd" id="6_yrh4r"]
-[ext_resource type="PackedScene" uid="uid://8wod3jgrrnpe" path="res://obstacle.tscn" id="7_rugj3"]
+[ext_resource type="Script" path="res://main.gd" id="1_main"]
+[ext_resource type="Script" path="res://character_body_2d.gd" id="2_player"]
+[ext_resource type="Texture2D" uid="uid://ce4gw13b618tf" path="res://icon.svg" id="3_icon"]
+[ext_resource type="Script" path="res://game_manager.gd" id="4_gm"]
+[ext_resource type="Script" path="res://hud.gd" id="5_hud"]
+[ext_resource type="Script" path="res://obstacle_spawner.gd" id="6_spawner"]
+[ext_resource type="PackedScene" path="res://post.tscn" id="7_post"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hq41x"]
-size = Vector2(127, 127)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
+size = Vector2(80, 80)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5xgwg"]
-size = Vector2(4248, 174)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(4000, 40)
 
-[node name="Node2D" type="Node2D" unique_id=2001953512 groups=["player"]]
-position = Vector2(108, 75)
-script = ExtResource("1_rjvj7")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.15, 0.15, 0.25, 1)
 
-[node name="Player" type="CharacterBody2D" parent="." unique_id=105905917 groups=["player"]]
-script = ExtResource("1_xdcq0")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fill"]
+bg_color = Color(0.2, 0.8, 0.4, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
-[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=1828375546]
-texture = ExtResource("2_b5s3y")
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_main")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1325596672]
-position = Vector2(0.5, 0.5)
-shape = SubResource("RectangleShape2D_hq41x")
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(150, 380)
+script = ExtResource("2_player")
 
-[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1965716381]
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_icon")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=2126220925]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("RectangleShape2D_player")
 
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D" unique_id=1167506882]
-position = Vector2(2014.5001, 489.25)
-scale = Vector2(33.148438, 1.3476563)
-texture = ExtResource("2_b5s3y")
+[node name="Camera2D" type="Camera2D" parent="Player"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=842279519]
-position = Vector2(2014, 487)
-shape = SubResource("RectangleShape2D_5xgwg")
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
 
-[node name="GameManager" type="Node" parent="." unique_id=992786881]
-script = ExtResource("3_b5s3y")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(600, 500)
+shape = SubResource("RectangleShape2D_floor")
 
-[node name="HUD" type="CanvasLayer" parent="." unique_id=1461311545]
-script = ExtResource("4_dlo7n")
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource("4_gm")
 
-[node name="TimerLabel" type="Label" parent="HUD" unique_id=575473812]
-offset_left = 1041.0
-offset_top = 18.0
-offset_right = 1128.0
-offset_bottom = 64.0
-horizontal_alignment = 2
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("5_hud")
 
-[node name="LifeLabel" type="Label" parent="HUD" unique_id=1808389047]
-offset_left = 15.0
-offset_top = 14.0
-offset_right = 122.0
-offset_bottom = 61.0
+[node name="HealthBar" type="ProgressBar" parent="HUD"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 280.0
+offset_bottom = 44.0
+min_value = 0.0
+max_value = 10.0
+value = 10.0
+show_percentage = false
+theme_override_styles/background = SubResource("StyleBoxFlat_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_fill")
 
-[node name="MessageLabel" type="Label" parent="HUD" unique_id=369901950]
-offset_left = 358.0
-offset_top = 212.0
-offset_right = 711.0
-offset_bottom = 341.0
+[node name="HealthIcon" type="Label" parent="HUD"]
+offset_left = 16.0
+offset_top = 48.0
+offset_right = 200.0
+offset_bottom = 70.0
+text = "🧠 Saúde Mental"
+theme_override_font_sizes/font_size = 13
+
+[node name="TimerLabel" type="Label" parent="HUD"]
+offset_left = 0.0
+offset_top = 12.0
+offset_right = 1152.0
+offset_bottom = 50.0
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 26
+text = "01:00"
+
+[node name="MessageLabel" type="Label" parent="HUD"]
+offset_left = 300.0
+offset_top = 250.0
+offset_right = 860.0
+offset_bottom = 380.0
 horizontal_alignment = 1
 vertical_alignment = 1
+theme_override_font_sizes/font_size = 32
+text = ""
 
-[node name="ObstacleSpawner" type="Node2D" parent="." unique_id=1693665629]
-script = ExtResource("6_yrh4r")
-obstacle_scene = ExtResource("7_rugj3")
+[node name="PostLabel" type="Label" parent="HUD"]
+offset_left = 300.0
+offset_top = 80.0
+offset_right = 860.0
+offset_bottom = 130.0
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 18
+text = ""
+
+[node name="ObstacleSpawner" type="Node2D" parent="."]
+script = ExtResource("6_spawner")
+post_scene = ExtResource("7_post")

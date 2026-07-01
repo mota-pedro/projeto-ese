@@ -1,46 +1,55 @@
+# character_body_2d.gd — Script do Player
 extends CharacterBody2D
 
-signal health_changed(current_health, max_health)
+signal health_changed(current_health: int, max_health: int)
 
-@export var max_health: int = 3
-var health: int = 3
+const GRAVITY: float = 900.0
+const JUMP_FORCE: float = -500.0
+const MOVE_SPEED: float = 0.0  # O player não se move horizontalmente (cenário rola)
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+var max_health: int = 10
+var health: int = 10
+var is_invincible: bool = false
+var invincibility_duration: float = 1.0  # segundos de invencibilidade após tomar dano
 
-@onready var cam: Camera2D = $Camera2D
-var fixed_y: float
-
-func _physics_process(delta: float) -> void:
-	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis("ui_left", "ui_right")
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-
-	move_and_slide()
-	
 func _ready():
-	fixed_y = cam.position.y
-	health = max_health
-	emit_signal("health_changed", health, max_health)
-	
+	add_to_group("player")
 
-func take_damage(amount: int = 1):
-	health -= amount
-	health = clamp(health, 0, max_health)
-	emit_signal("health_changed", health, max_health)
+func _physics_process(delta):
+	# Gravidade
+	if not is_on_floor():
+		velocity.y += GRAVITY * delta
+	else:
+		velocity.y = 0.0
 
+	# Pulo (espaço, seta pra cima, ou toque na tela)
+	if (Input.is_action_just_pressed("ui_accept") or Input.is_action_just_pressed("ui_up")) and is_on_floor():
+		velocity.y = JUMP_FORCE
+
+	velocity.x = MOVE_SPEED
+	move_and_slide()
+
+func take_damage(amount: int):
+	if is_invincible:
+		return
+	health = max(0, health - amount)
+	emit_signal("health_changed", health, max_health)
+	_start_invincibility()
 	if health <= 0:
-		# aqui você chama o GameManager ou sua lógica de morte
-		get_tree().get_root().get_node("Node2D/GameManager").player_died()
+		# Sinal de morte tratado pelo GameManager via health_changed
+		pass
+
+func heal(amount: int):
+	health = min(max_health, health + amount)
+	emit_signal("health_changed", health, max_health)
+
+func _start_invincibility():
+	is_invincible = true
+	# Pisca o sprite para indicar invencibilidade
+	var tween = create_tween()
+	tween.set_loops(int(invincibility_duration / 0.15))
+	tween.tween_property($Sprite2D, "modulate:a", 0.2, 0.075)
+	tween.tween_property($Sprite2D, "modulate:a", 1.0, 0.075)
+	await get_tree().create_timer(invincibility_duration).timeout
+	is_invincible = false
+	$Sprite2D.modulate.a = 1.0
