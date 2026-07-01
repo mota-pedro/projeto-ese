@@ -3,8 +3,8 @@ extends CharacterBody2D
 
 signal health_changed(current_health: int, max_health: int)
 
-const GRAVITY: float = 900.0
-const JUMP_FORCE: float = -550.0
+const GRAVITY: float = 1100.0
+const JUMP_FORCE: float = -700.0
 const MOVE_SPEED: float = 260.0
 
 var max_health: int = 10

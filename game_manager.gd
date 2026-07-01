@@ -3,7 +3,7 @@ extends Node
 
 signal game_over(won: bool)
 
-@export var survival_time: float = 60.0
+@export var survival_time: float = 90.0
 
 var elapsed_time: float = 0.0
 var game_active: bool = true
