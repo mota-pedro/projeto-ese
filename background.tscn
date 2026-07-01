@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b8qrbxkps4rin"]
+
+[ext_resource type="Script" uid="uid://dm5e670il3h21" path="res://background.gd" id="1_i7s6n"]
+[ext_resource type="Texture2D" uid="uid://j5rq6mhnyuru" path="res://assets/background/background.png" id="2_xehqc"]
+
+[node name="Background" type="Node2D" unique_id=842056252]
+z_index = -1
+script = ExtResource("1_i7s6n")
+texture = ExtResource("2_xehqc")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=196065769]
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1827416011]
