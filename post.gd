@@ -1,10 +1,14 @@
-# post.gd
 extends CharacterBody2D
 
 enum PostType { POSITIVE, NEGATIVE }
 
 var post_type: PostType = PostType.NEGATIVE
 var speed: float = 280.0
+
+var amplitude: float = 40.0     # altura da oscilação
+var frequency: float = 2.5      # velocidade da oscilação
+var time: float = 0.0
+var origin_y: float = 0.0       # centro da oscilação
 
 const POSITIVE_SPRITES = [
 	preload("res://assets/posts/post_positivo_01.png"),
@@ -23,6 +27,10 @@ func _ready():
 	if hitbox:
 		hitbox.body_entered.connect(_on_body_entered)
 
+	# se o spawner não setar origin_y, usa o Y atual
+	if origin_y == 0.0:
+		origin_y = global_position.y
+
 func setup(type: PostType, spd: float):
 	post_type = type
 	speed = spd
@@ -35,9 +43,15 @@ func _apply_type():
 		sprite.texture = NEGATIVE_SPRITES[randi() % NEGATIVE_SPRITES.size()]
 
 func _physics_process(delta):
+	time += delta
+
+	# movimento horizontal
 	position.x -= speed * delta
 
-	# Some quando sair da borda esquerda da câmera
+	# oscilação vertical ao redor do origin_y
+	position.y = origin_y + sin(time * frequency) * amplitude
+
+	# remover quando sair da tela
 	var cam = get_tree().get_first_node_in_group("camera")
 	var left_limit = cam.global_position.x - get_viewport().size.x if cam else -300.0
 	if position.x < left_limit - 100.0:

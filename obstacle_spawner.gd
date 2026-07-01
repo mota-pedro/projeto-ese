@@ -39,16 +39,21 @@ func _spawn_post(spd: float):
 	var post = post_scene.instantiate()
 	get_tree().root.add_child(post)
 
-	# Spawna na borda direita da câmera
 	var screen_w = get_viewport().size.x
 	var screen_h = get_viewport().size.y
+
 	var cam_x = camera.global_position.x if camera else 0.0
 	var cam_y = camera.global_position.y if camera else 0.0
 
 	var spawn_x = cam_x + (screen_w / 2.0) + 100.0
-	var spawn_y = cam_y + randf_range(-screen_h * 0.25, screen_h * 0.25)
+
+	# aleatório dentro da tela (ajuste os 0.2 / 0.3 se quiser outra faixa)
+	var spawn_y = cam_y + randf_range(-screen_h * 0.3, screen_h * 0.3)
 
 	post.global_position = Vector2(spawn_x, spawn_y)
+
+	# centro da oscilação é a altura de spawn
+	post.origin_y = spawn_y
 
 	var is_positive = randf() < positive_chance
 	post.setup(
