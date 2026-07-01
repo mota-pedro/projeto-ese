@@ -1,4 +1,4 @@
-# obstacle_spawner.gd — Spawna posts positivos e negativos
+# obstacle_spawner.gd
 extends Node2D
 
 @export var post_scene: PackedScene
@@ -8,9 +8,14 @@ extends Node2D
 var spawn_timer: float = 0.0
 var game_active: bool = true
 var elapsed: float = 0.0
-
-# Chance de post positivo começa em 40%
 var positive_chance: float = 0.40
+
+var camera: Camera2D = null
+
+func _ready():
+	await get_tree().process_frame
+	# Busca a câmera na cena
+	camera = get_tree().get_first_node_in_group("camera")
 
 func _process(delta):
 	if not game_active:
@@ -19,7 +24,6 @@ func _process(delta):
 	elapsed += delta
 	spawn_timer += delta
 
-	# Aumenta dificuldade ao longo do tempo
 	var difficulty_mult = 1.0 + (elapsed / 60.0) * 0.5
 	var current_speed = base_speed * difficulty_mult
 	var current_interval = max(0.8, spawn_interval / difficulty_mult)
@@ -33,16 +37,24 @@ func _spawn_post(spd: float):
 		return
 
 	var post = post_scene.instantiate()
-	add_child(post)
+	get_tree().root.add_child(post)
 
-	# Altura aleatória na tela
+	# Spawna na borda direita da câmera
+	var screen_w = get_viewport().size.x
 	var screen_h = get_viewport().size.y
-	var spawn_y = randf_range(screen_h * 0.2, screen_h * 0.75)
-	post.position = Vector2(get_viewport().size.x + 60, spawn_y)
+	var cam_x = camera.global_position.x if camera else 0.0
+	var cam_y = camera.global_position.y if camera else 0.0
 
-	# Define tipo: positivo ou negativo
+	var spawn_x = cam_x + (screen_w / 2.0) + 100.0
+	var spawn_y = cam_y + randf_range(-screen_h * 0.25, screen_h * 0.25)
+
+	post.global_position = Vector2(spawn_x, spawn_y)
+
 	var is_positive = randf() < positive_chance
 	post.setup(
 		post.PostType.POSITIVE if is_positive else post.PostType.NEGATIVE,
 		spd
 	)
+
+func stop():
+	game_active = false

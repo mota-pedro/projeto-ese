@@ -1,4 +1,4 @@
-# post.gd — Post de rede social: positivo (cura) ou negativo (causa dano)
+# post.gd
 extends CharacterBody2D
 
 enum PostType { POSITIVE, NEGATIVE }
@@ -23,7 +23,6 @@ func _ready():
 	if hitbox:
 		hitbox.body_entered.connect(_on_body_entered)
 
-
 func setup(type: PostType, spd: float):
 	post_type = type
 	speed = spd
@@ -37,7 +36,11 @@ func _apply_type():
 
 func _physics_process(delta):
 	position.x -= speed * delta
-	if position.x < -300:
+
+	# Some quando sair da borda esquerda da câmera
+	var cam = get_tree().get_first_node_in_group("camera")
+	var left_limit = cam.global_position.x - get_viewport().size.x if cam else -300.0
+	if position.x < left_limit - 100.0:
 		queue_free()
 
 func _on_body_entered(body):
@@ -46,5 +49,4 @@ func _on_body_entered(body):
 			body.heal(2)
 		else:
 			body.take_damage(2)
-
 		queue_free()

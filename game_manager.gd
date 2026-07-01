@@ -1,22 +1,23 @@
-# game_manager.gd — Gerencia tempo de jogo e condição de vitória/derrota
+# game_manager.gd
 extends Node
 
 signal game_over(won: bool)
 
-@export var survival_time: float = 60.0  # segundos para vencer
+@export var survival_time: float = 60.0
 
 var elapsed_time: float = 0.0
 var game_active: bool = true
-
-# Referência ao player para monitorar saúde
 var player_ref: Node = null
+var spawner_ref: Node = null
 
 func _ready():
-	# Busca o player na cena
 	await get_tree().process_frame
+
 	player_ref = get_tree().get_first_node_in_group("player")
 	if player_ref:
 		player_ref.health_changed.connect(_on_player_health_changed)
+
+	spawner_ref = get_tree().get_first_node_in_group("spawner")
 
 func _process(delta):
 	if not game_active:
@@ -25,13 +26,18 @@ func _process(delta):
 	elapsed_time += delta
 
 	if elapsed_time >= survival_time:
-		game_active = false
-		emit_signal("game_over", true)  # Jogador venceu
+		_end_game(true)
 
 func _on_player_health_changed(current_health: int, _max_health: int):
 	if current_health <= 0 and game_active:
-		game_active = false
-		emit_signal("game_over", false)  # Game Over
+		_end_game(false)
+
+func _end_game(won: bool):
+	game_active = false
+	# Para o spawner
+	if spawner_ref and spawner_ref.has_method("stop"):
+		spawner_ref.stop()
+	emit_signal("game_over", won)
 
 func get_formatted_time() -> String:
 	var remaining = max(0.0, survival_time - elapsed_time)
