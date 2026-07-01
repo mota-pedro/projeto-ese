@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://3gts73vj3g14" path="res://assets/map/chao.png" id="8_ldxxv"]
 [ext_resource type="Script" uid="uid://dm5e670il3h21" path="res://background.gd" id="9_737v7"]
 [ext_resource type="Texture2D" uid="uid://j5rq6mhnyuru" path="res://assets/background/background.png" id="10_3u0jj"]
+[ext_resource type="Script" uid="uid://bvxd8kgq8kp4i" path="res://abismo_gradiente.gd" id="11_iq7u4"]
+[ext_resource type="Script" uid="uid://ce2molxjd0sk2" path="res://ground_limit.gd" id="12_grmxh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(80, 80)
@@ -38,6 +40,20 @@ texture = ExtResource("8_ldxxv")
 [sub_resource type="TileSet" id="TileSet_ldxxv"]
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_737v7")
+
+[sub_resource type="Gradient" id="Gradient_5xgwg"]
+offsets = PackedFloat32Array(0.5867347, 0.8010204, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0.45882353, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hq41x"]
+gradient = SubResource("Gradient_5xgwg")
+width = 3840
+height = 400
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hq41x"]
+size = Vector2(39556, 2020)
 
 [node name="Node2D" type="Node2D" unique_id=2052663765]
 script = ExtResource("1_main")
@@ -123,3 +139,18 @@ texture = ExtResource("10_3u0jj")
 [node name="Sprite2D" type="Sprite2D" parent="Background" unique_id=151842662]
 
 [node name="Sprite2D2" type="Sprite2D" parent="Background" unique_id=944128972]
+
+[node name="AbismoGradiente" type="Sprite2D" parent="." unique_id=162078929]
+z_index = 10
+position = Vector2(-442, 629.00006)
+scale = Vector2(9.594271, 6.9449997)
+texture = SubResource("GradientTexture2D_hq41x")
+centered = false
+script = ExtResource("11_iq7u4")
+
+[node name="GroundLimit" type="Area2D" parent="." unique_id=424161974]
+script = ExtResource("12_grmxh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundLimit" unique_id=924244944]
+position = Vector2(17728, 2743)
+shape = SubResource("RectangleShape2D_hq41x")
