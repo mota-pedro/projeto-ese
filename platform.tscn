@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://vm5h3dmtieef"]
+
+[ext_resource type="Script" uid="uid://xsstj2kr8rc0" path="res://platform.gd" id="1_mi635"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ajho"]
+size = Vector2(139, 26.5)
+
+[node name="Platform" type="StaticBody2D" unique_id=841874888]
+script = ExtResource("1_mi635")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1259071222]
+position = Vector2(-0.5, 0.25)
+shape = SubResource("RectangleShape2D_5ajho")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=197973209]
+position = Vector2(-152, -70)
+color = Color(0.04755766, 0.047557645, 0.047557645, 1)
+polygon = PackedVector2Array(82, 57, 82, 84, 221, 84, 221, 72, 221, 57)

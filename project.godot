@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="ProjetoESE"
-run/main_scene="uid://bkp8hyiiprknt"
+run/main_scene="uid://crmyrv4qe0bfs"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[gui]
+
+theme/custom_font="uid://cctrsnqmlauw6"
 
 [physics]
 
