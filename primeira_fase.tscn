@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://bkp8hyiiprknt"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_main"]
-[ext_resource type="Script" path="res://character_body_2d.gd" id="2_player"]
+[ext_resource type="Script" uid="uid://bveqqwjobwv3c" path="res://main.gd" id="1_main"]
+[ext_resource type="Script" uid="uid://bij2ew2p6no3r" path="res://character_body_2d.gd" id="2_player"]
 [ext_resource type="Texture2D" uid="uid://ce4gw13b618tf" path="res://icon.svg" id="3_icon"]
-[ext_resource type="Script" path="res://game_manager.gd" id="4_gm"]
-[ext_resource type="Script" path="res://hud.gd" id="5_hud"]
-[ext_resource type="Script" path="res://obstacle_spawner.gd" id="6_spawner"]
-[ext_resource type="PackedScene" path="res://post.tscn" id="7_post"]
+[ext_resource type="Script" uid="uid://b81u7qekq77jy" path="res://game_manager.gd" id="4_gm"]
+[ext_resource type="Script" uid="uid://clvrano5ahshr" path="res://hud.gd" id="5_hud"]
+[ext_resource type="Script" uid="uid://cyqabwgah4uay" path="res://obstacle_spawner.gd" id="6_spawner"]
+[ext_resource type="PackedScene" uid="uid://i4vcdsnfb363" path="res://post.tscn" id="7_post"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(80, 80)
@@ -24,83 +24,84 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Node2D" unique_id=2052663765]
 script = ExtResource("1_main")
 
-[node name="Player" type="CharacterBody2D" parent="."]
+[node name="Player" type="CharacterBody2D" parent="." unique_id=174280586]
 position = Vector2(150, 380)
 script = ExtResource("2_player")
 
-[node name="Sprite2D" type="Sprite2D" parent="Player"]
+[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=1970136357]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_icon")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1933610032]
 shape = SubResource("RectangleShape2D_player")
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=495398000]
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=358111518]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=909999681]
 position = Vector2(600, 500)
 shape = SubResource("RectangleShape2D_floor")
 
-[node name="GameManager" type="Node" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D" unique_id=1711276685]
+position = Vector2(624.5, 625.5)
+scale = Vector2(31.070313, 2.2734373)
+texture = ExtResource("3_icon")
+
+[node name="GameManager" type="Node" parent="." unique_id=974755114]
 script = ExtResource("4_gm")
 
-[node name="HUD" type="CanvasLayer" parent="."]
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1151483169]
 script = ExtResource("5_hud")
 
-[node name="HealthBar" type="ProgressBar" parent="HUD"]
+[node name="HealthBar" type="ProgressBar" parent="HUD" unique_id=482276373]
 offset_left = 16.0
 offset_top = 16.0
 offset_right = 280.0
 offset_bottom = 44.0
-min_value = 0.0
+theme_override_styles/background = SubResource("StyleBoxFlat_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_fill")
 max_value = 10.0
 value = 10.0
 show_percentage = false
-theme_override_styles/background = SubResource("StyleBoxFlat_bg")
-theme_override_styles/fill = SubResource("StyleBoxFlat_fill")
 
-[node name="HealthIcon" type="Label" parent="HUD"]
+[node name="HealthIcon" type="Label" parent="HUD" unique_id=704897657]
 offset_left = 16.0
 offset_top = 48.0
 offset_right = 200.0
 offset_bottom = 70.0
-text = "🧠 Saúde Mental"
 theme_override_font_sizes/font_size = 13
+text = "🧠 Saúde Mental"
 
-[node name="TimerLabel" type="Label" parent="HUD"]
-offset_left = 0.0
+[node name="TimerLabel" type="Label" parent="HUD" unique_id=1560495774]
 offset_top = 12.0
 offset_right = 1152.0
 offset_bottom = 50.0
-horizontal_alignment = 1
 theme_override_font_sizes/font_size = 26
 text = "01:00"
+horizontal_alignment = 1
 
-[node name="MessageLabel" type="Label" parent="HUD"]
+[node name="MessageLabel" type="Label" parent="HUD" unique_id=1065016840]
 offset_left = 300.0
 offset_top = 250.0
 offset_right = 860.0
 offset_bottom = 380.0
+theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 32
-text = ""
 
-[node name="PostLabel" type="Label" parent="HUD"]
+[node name="PostLabel" type="Label" parent="HUD" unique_id=1644599572]
 offset_left = 300.0
 offset_top = 80.0
 offset_right = 860.0
 offset_bottom = 130.0
+theme_override_font_sizes/font_size = 18
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 18
-text = ""
 
-[node name="ObstacleSpawner" type="Node2D" parent="."]
+[node name="ObstacleSpawner" type="Node2D" parent="." unique_id=59965253]
 script = ExtResource("6_spawner")
 post_scene = ExtResource("7_post")
