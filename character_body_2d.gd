@@ -6,6 +6,12 @@ const GRAVITY: float = 1100.0
 const JUMP_FORCE: float = -700.0
 const MOVE_SPEED: float = 260.0
 
+# --- Tremor de tela quando a saúde mental está baixa ---
+const LOW_HEALTH_THRESHOLD: float = 0.5  # abaixo de 50% a tela começa a tremer
+const SHAKE_MIN_INTENSITY: float = 1.5   # tremor leve logo abaixo do limite (em pixels)
+const SHAKE_MAX_INTENSITY: float = 5.0   # tremor mais forte com a saúde quase zerada
+const SHAKE_RECOVER_SPEED: float = 10.0  # velocidade com que a câmera volta ao normal
+
 var max_health: int = 10
 var health: int = 10
 var is_invincible: bool = false
@@ -17,6 +23,7 @@ var is_crouching: bool = false
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var col_normal: CollisionShape2D = $CollisionShape2D
 @onready var col_crouch: CollisionShape2D = $CollisionShapeDown
+@onready var camera: Camera2D = $Camera2D
 
 func _ready():
 	add_to_group("player")
@@ -44,6 +51,8 @@ func _physics_process(delta):
 		velocity.y = JUMP_FORCE
 
 	move_and_slide()
+
+	_apply_low_health_shake(delta)
 
 func _update_state_and_animation(direction: float) -> void:
 	# Atualiza última direção
@@ -122,3 +131,21 @@ func _start_invincibility():
 	await get_tree().create_timer(invincibility_duration).timeout
 	is_invincible = false
 	anim.modulate.a = 1.0
+
+func _apply_low_health_shake(delta: float):
+	if not camera:
+		return
+
+	var pct = float(health) / float(max_health)
+
+	if pct <= LOW_HEALTH_THRESHOLD and pct > 0.0:
+		# quanto mais perto de 0, mais forte o tremor (mas sempre leve/sutil)
+		var t = 1.0 - (pct / LOW_HEALTH_THRESHOLD)
+		var intensity = lerp(SHAKE_MIN_INTENSITY, SHAKE_MAX_INTENSITY, t)
+		camera.offset = Vector2(
+			randf_range(-intensity, intensity),
+			randf_range(-intensity, intensity)
+		)
+	else:
+		# saúde ok (ou zerada/game over): a câmera volta suavemente ao centro
+		camera.offset = camera.offset.lerp(Vector2.ZERO, delta * SHAKE_RECOVER_SPEED)

@@ -4,7 +4,6 @@ extends Control
 @export var fase_atual: int = 1
 # Cena para a qual o botão "Próxima fase" deve levar.
 # Por enquanto só existe a primeira fase, então ele reinicia a mesma fase.
-# Quando novas fases forem criadas, troque o caminho abaixo.
 @export var proxima_fase_path: String = "res://primeira_fase.tscn"
 
 @onready var fase_label: Label = $FaseLabel
