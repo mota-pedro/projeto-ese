@@ -1,50 +1,57 @@
 [gd_scene format=3 uid="uid://crmyrv4qe0bfs"]
 
 [ext_resource type="Script" uid="uid://c3ujw7tdn54mq" path="res://main_menu.gd" id="1_06t4h"]
-[ext_resource type="PackedScene" uid="uid://b8qrbxkps4rin" path="res://background.tscn" id="2_7vrkn"]
 [ext_resource type="FontFile" uid="uid://cctrsnqmlauw6" path="res://assets/fonts/minecraft/Minecraft.ttf" id="2_fu7sn"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_hq41x"]
+[ext_resource type="Texture2D" uid="uid://dqueot28nc7fk" path="res://assets/menu/menu_screen.png" id="3_fu7sn"]
 
 [node name="MainMenu" type="Control" unique_id=283660924]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 516.0
-offset_top = 260.0
-offset_right = 516.0
-offset_bottom = 260.0
+offset_left = 459.0
+offset_top = 301.0
+offset_right = 459.0
+offset_bottom = 301.0
 script = ExtResource("1_06t4h")
+
+[node name="Background" type="TextureRect" parent="." unique_id=1554738368]
+z_index = -10
+layout_mode = 0
+offset_left = -617.0
+offset_top = -304.0
+offset_right = 817.04675
+offset_bottom = 346.0
+texture = ExtResource("3_fu7sn")
+expand_mode = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1184848044]
 layout_mode = 0
-offset_right = 85.0
-offset_bottom = 128.0
+offset_left = -28.0
+offset_top = -100.0
+offset_right = 222.0
+offset_bottom = 88.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=449188023]
 layout_mode = 2
-
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1990424422]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("2_fu7sn")
-theme_override_font_sizes/font_size = 24
-text = "Scroll Loop"
-label_settings = SubResource("LabelSettings_hq41x")
+offset_transform_enabled = true
 
 [node name="Jogar" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1114379859]
+custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_fu7sn")
+theme_override_font_sizes/font_size = 32
 text = "Jogar"
 
 [node name="Ajuda" type="Button" parent="CenterContainer/VBoxContainer" unique_id=788485029]
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Ajuda"
 
 [node name="Sair" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1740890055]
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Sair"
-
-[node name="Background" parent="." unique_id=842056252 instance=ExtResource("2_7vrkn")]
-position = Vector2(-578, -314)
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Jogar" to="." method="_on_jogar_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Sair" to="." method="_on_sair_pressed"]
