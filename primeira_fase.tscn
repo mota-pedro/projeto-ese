@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://b8qrbxkps4rin" path="res://background.tscn" id="9_iq7u4"]
 [ext_resource type="Script" uid="uid://bvxd8kgq8kp4i" path="res://abismo_gradiente.gd" id="11_iq7u4"]
 [ext_resource type="Script" uid="uid://ce2molxjd0sk2" path="res://ground_limit.gd" id="12_grmxh"]
+[ext_resource type="Shader" path="res://assets/shaders/vignette.gdshader" id="13_vignette"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(62, 114)
@@ -140,6 +141,13 @@ fill_to = Vector2(0, 0)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hq41x"]
 size = Vector2(39556, 2020)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vignette"]
+shader = ExtResource("13_vignette")
+shader_parameter/strength = 0.0
+shader_parameter/radius = 0.75
+shader_parameter/softness = 0.55
+shader_parameter/vignette_color = Color(0, 0, 0, 1)
+
 [node name="Node2D" type="Node2D" unique_id=2052663765]
 script = ExtResource("1_main")
 
@@ -214,6 +222,13 @@ offset_bottom = 130.0
 theme_override_font_sizes/font_size = 18
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Vignette" type="ColorRect" parent="HUD"]
+mouse_filter = 2
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(1, 1, 1, 1)
+material = SubResource("ShaderMaterial_vignette")
 
 [node name="ObstacleSpawner" type="Node2D" parent="." unique_id=59965253 groups=["spawner"]]
 script = ExtResource("6_spawner")
