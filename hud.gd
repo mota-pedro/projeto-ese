@@ -5,6 +5,12 @@ extends CanvasLayer
 @onready var timer_label: Label = $TimerLabel
 @onready var message_label: Label = $MessageLabel
 @onready var post_label: Label = $PostLabel  # Mostra o texto do post coletado
+@onready var vignette: ColorRect = $Vignette  # Escurece as bordas quando a saúde está baixa
+
+const LOW_HEALTH_THRESHOLD: float = 0.5   # abaixo de 50% o efeito começa a aparecer
+const MAX_VIGNETTE_STRENGTH: float = 0.85 # intensidade máxima (com saúde zerada)
+
+var vignette_tween: Tween
 
 func _ready():
 	message_label.visible = false
@@ -24,6 +30,28 @@ func update_life(current: int, maximum: int):
 			fill.bg_color = Color(1.0, 0.75, 0.0)  # Amarelo — atenção
 		else:
 			fill.bg_color = Color(0.9, 0.2, 0.2)   # Vermelho — crítico
+
+	_update_vignette(current, maximum)
+
+func _update_vignette(current: int, maximum: int):
+	if not vignette or not vignette.material:
+		return
+
+	var pct = float(current) / float(maximum)
+	var target_strength := 0.0
+	if pct <= LOW_HEALTH_THRESHOLD:
+		# 0.0 quando pct == 0.5 (limite) até 1.0 quando pct == 0 (saúde zerada)
+		var t = 1.0 - (pct / LOW_HEALTH_THRESHOLD)
+		target_strength = clamp(t, 0.0, 1.0) * MAX_VIGNETTE_STRENGTH
+
+	var current_strength = vignette.material.get_shader_parameter("strength")
+	if vignette_tween:
+		vignette_tween.kill()
+	vignette_tween = create_tween()
+	vignette_tween.tween_method(
+		func(v): vignette.material.set_shader_parameter("strength", v),
+		current_strength, target_strength, 0.4
+	)
 
 func update_timer(time_str: String):
 	timer_label.text = time_str

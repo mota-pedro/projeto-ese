@@ -28,16 +28,18 @@ func _on_game_over(won: bool):
 		return
 	game_finished = true
 
-	if won:
-		hud.show_message("🎉 Você sobreviveu!\nSaúde mental protegida!")
-	else:
-		hud.show_message("💔 Game Over!\nCuide da sua mente.")
-
 	player.set_physics_process(false)
 	player.set_process(false)
 
 	if $ObstacleSpawner:
 		$ObstacleSpawner.game_active = false
 
-	await get_tree().create_timer(3.0).timeout
-	get_tree().reload_current_scene()
+	if won:
+		# Tempo da fase acabou: leva para a tela "Você fez uma pausa"
+		hud.show_message("🎉 Você sobreviveu!\nSaúde mental protegida!")
+		await get_tree().create_timer(1.5).timeout
+		get_tree().change_scene_to_file("res://tela_pausa.tscn")
+	else:
+		hud.show_message("💔 Game Over!\nCuide da sua mente.")
+		await get_tree().create_timer(3.0).timeout
+		get_tree().reload_current_scene()
