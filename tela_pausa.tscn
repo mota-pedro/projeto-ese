@@ -1,0 +1,113 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://tela_pausa.gd" id="1_script"]
+[ext_resource type="FontFile" uid="uid://cctrsnqmlauw6" path="res://assets/fonts/minecraft/Minecraft.ttf" id="2_font"]
+[ext_resource type="Texture2D" path="res://assets/pausa/nuvem.png" id="3_nuvem"]
+[ext_resource type="Texture2D" path="res://assets/pausa/banco.png" id="4_banco"]
+[ext_resource type="Texture2D" uid="uid://b50q4t2rbsnp7" path="res://assets/player/deFrente.png" id="5_player"]
+
+[node name="TelaPausa" type="Control"]
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="Ceu" type="ColorRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.262745, 0.509804, 0.843137, 1)
+
+[node name="Chao" type="ColorRect" parent="."]
+offset_top = 530.0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.305882, 0.560784, 0.168627, 1)
+
+[node name="Nuvem1" type="TextureRect" parent="."]
+offset_left = 40.0
+offset_top = 36.0
+offset_right = 270.0
+offset_bottom = 158.0
+texture = ExtResource("3_nuvem")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Nuvem2" type="TextureRect" parent="."]
+offset_left = 800.0
+offset_top = 66.0
+offset_right = 1080.0
+offset_bottom = 204.0
+texture = ExtResource("3_nuvem")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Banco" type="TextureRect" parent="."]
+offset_left = 590.0
+offset_top = 390.0
+offset_right = 850.0
+offset_bottom = 552.0
+texture = ExtResource("4_banco")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Personagem" type="TextureRect" parent="."]
+offset_left = 380.0
+offset_top = 340.0
+offset_right = 550.0
+offset_bottom = 530.0
+texture = ExtResource("5_player")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FaseLabel" type="Label" parent="."]
+offset_left = 900.0
+offset_top = 24.0
+offset_right = 1120.0
+offset_bottom = 60.0
+theme_override_font_sizes/font_size = 24
+text = "Fase atual: 1"
+horizontal_alignment = 2
+
+[node name="TituloLabel" type="Label" parent="."]
+offset_left = 0.0
+offset_top = 110.0
+offset_right = 1152.0
+offset_bottom = 180.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 50
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+text = "Você fez uma pausa"
+horizontal_alignment = 1
+
+[node name="SubtituloLabel" type="Label" parent="."]
+offset_left = 176.0
+offset_top = 192.0
+offset_right = 976.0
+offset_bottom = 250.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Você resistiu à pressão das redes sociais. Continue se cuidando!"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Menu" type="Button" parent="."]
+offset_left = 40.0
+offset_top = 574.0
+offset_right = 200.0
+offset_bottom = 624.0
+theme_override_font_sizes/font_size = 24
+text = "Menu"
+
+[node name="ProximaFase" type="Button" parent="."]
+offset_left = 912.0
+offset_top = 574.0
+offset_right = 1112.0
+offset_bottom = 624.0
+theme_override_font_sizes/font_size = 24
+text = "Próxima fase"
+
+[connection signal="pressed" from="Menu" to="." method="_on_menu_pressed"]
+[connection signal="pressed" from="ProximaFase" to="." method="_on_proxima_fase_pressed"]
