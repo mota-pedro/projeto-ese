@@ -2,18 +2,104 @@
 
 [ext_resource type="Script" uid="uid://bveqqwjobwv3c" path="res://main.gd" id="1_main"]
 [ext_resource type="Script" uid="uid://bij2ew2p6no3r" path="res://character_body_2d.gd" id="2_player"]
-[ext_resource type="Texture2D" uid="uid://ce4gw13b618tf" path="res://icon.svg" id="3_icon"]
+[ext_resource type="Texture2D" uid="uid://c2lem1yushy4i" path="res://assets/player/agachado.png" id="3_3n0ta"]
+[ext_resource type="Texture2D" uid="uid://ca81ymw47fhtq" path="res://assets/player/esquerda.png" id="4_6e60h"]
 [ext_resource type="Script" uid="uid://b81u7qekq77jy" path="res://game_manager.gd" id="4_gm"]
+[ext_resource type="Texture2D" uid="uid://cu60hw2ho80j4" path="res://assets/player/direita.png" id="5_c40r0"]
 [ext_resource type="Script" uid="uid://clvrano5ahshr" path="res://hud.gd" id="5_hud"]
+[ext_resource type="Texture2D" uid="uid://da435bka2s3rp" path="res://assets/player/esquerdaAndando.png" id="6_a638g"]
 [ext_resource type="Script" uid="uid://cyqabwgah4uay" path="res://obstacle_spawner.gd" id="6_spawner"]
 [ext_resource type="PackedScene" uid="uid://i4vcdsnfb363" path="res://post.tscn" id="7_post"]
+[ext_resource type="Texture2D" uid="uid://co6eij3o4hthu" path="res://assets/player/direitaAndando.png" id="7_s8p4t"]
 [ext_resource type="Texture2D" uid="uid://3gts73vj3g14" path="res://assets/map/chao.png" id="8_ldxxv"]
+[ext_resource type="Texture2D" uid="uid://qe8c7h5oa5kw" path="res://assets/player/esquerdaAndando2.png" id="8_mg5r1"]
+[ext_resource type="Texture2D" uid="uid://ct7xse2h5w4py" path="res://assets/player/direitaAndando2.png" id="9_863rg"]
 [ext_resource type="PackedScene" uid="uid://b8qrbxkps4rin" path="res://background.tscn" id="9_iq7u4"]
 [ext_resource type="Script" uid="uid://bvxd8kgq8kp4i" path="res://abismo_gradiente.gd" id="11_iq7u4"]
 [ext_resource type="Script" uid="uid://ce2molxjd0sk2" path="res://ground_limit.gd" id="12_grmxh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
-size = Vector2(80, 80)
+size = Vector2(62, 114)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_iq7u4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_3n0ta")
+}],
+"loop": 1,
+"name": &"crouch",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_6e60h")
+}],
+"loop": 1,
+"name": &"idle_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_c40r0")
+}],
+"loop": 1,
+"name": &"idle_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_a638g")
+}],
+"loop": 1,
+"name": &"jump_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_s8p4t")
+}],
+"loop": 1,
+"name": &"jump_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_mg5r1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_6e60h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_a638g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_6e60h")
+}],
+"loop": 1,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_863rg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_c40r0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_s8p4t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_c40r0")
+}],
+"loop": 1,
+"name": &"walk_right",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3n0ta"]
+size = Vector2(79, 80)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
 bg_color = Color(0.15, 0.15, 0.25, 1)
@@ -61,14 +147,22 @@ script = ExtResource("1_main")
 position = Vector2(150, 380)
 script = ExtResource("2_player")
 
-[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=1970136357]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("3_icon")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1933610032]
+position = Vector2(-16, 1)
 shape = SubResource("RectangleShape2D_player")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=495398000 groups=["camera"]]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1106266559]
+position = Vector2(-15.999999, 5.9604645e-08)
+scale = Vector2(0.1, 0.1)
+sprite_frames = SubResource("SpriteFrames_iq7u4")
+animation = &"crouch"
+frame_progress = 0.5970855
+
+[node name="CollisionShapeDown" type="CollisionShape2D" parent="Player" unique_id=1189960828]
+position = Vector2(-13.5, 18)
+shape = SubResource("RectangleShape2D_3n0ta")
 
 [node name="GameManager" type="Node" parent="." unique_id=974755114]
 script = ExtResource("4_gm")
