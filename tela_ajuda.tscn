@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://tela_ajuda.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/ajuda/tela_ajuda_1.png" id="2_t1"]
+[ext_resource type="Texture2D" path="res://assets/ajuda/tela_ajuda_2.png" id="3_t2"]
+[ext_resource type="Texture2D" path="res://assets/ajuda/tela_ajuda_3.png" id="4_t3"]
+[ext_resource type="Texture2D" path="res://assets/ajuda/tela_ajuda_4.png" id="5_t4"]
+[ext_resource type="Texture2D" path="res://assets/ajuda/tela_ajuda_5.png" id="6_t5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_invisible"]
+
+[node name="TelaAjuda" type="Control"]
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+script = ExtResource("1_script")
+telas = Array[Texture2D]([ExtResource("2_t1"), ExtResource("3_t2"), ExtResource("4_t3"), ExtResource("5_t4"), ExtResource("6_t5")])
+
+[node name="Imagem" type="TextureRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("2_t1")
+expand_mode = 1
+
+[node name="Avancar" type="Button" parent="."]
+offset_left = 980.0
+offset_top = 440.0
+offset_right = 1152.0
+offset_bottom = 648.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_invisible")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_invisible")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_invisible")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_invisible")
+mouse_default_cursor_shape = 2
+text = ""
+
+[connection signal="pressed" from="Avancar" to="." method="_on_avancar_pressed"]

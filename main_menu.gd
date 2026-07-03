@@ -11,7 +11,14 @@ func _ready():
 
 func _on_jogar_pressed():
 	GameState.fase_atual = 1
-	get_tree().change_scene_to_file("res://primeira_fase.tscn")
+	if not SaveGame.tutorial_visto:
+		GameState.veio_do_botao_jogar = true
+		get_tree().change_scene_to_file("res://tela_ajuda.tscn")
+	else:
+		get_tree().change_scene_to_file("res://primeira_fase.tscn")
+
+func _on_ajuda_pressed():
+	get_tree().change_scene_to_file("res://tela_ajuda.tscn")
 
 func _on_sair_pressed():
 	get_tree().quit()

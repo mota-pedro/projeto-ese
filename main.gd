@@ -45,6 +45,6 @@ func _on_game_over(won: bool):
 	else:
 		# morreu na fase atual → salva recorde e volta ao menu
 		SaveGame.salvar(GameState.fase_atual)
-		hud.show_message("Game Over!\nVocê ficou preso no Scroll Loop e\npagou o preço com sua saúde mental.\nO uso excessivo de redes sociais\né prejudicial. Escolha parar.")
-		await get_tree().create_timer(8.0).timeout
+		hud.show_message("Game Over!\nVocê ficou preso no Scroll Loop e \npagou o preço com sua saúde mental.\nO uso excessivo de redes sociais é prejudicial. \nEscolha parar.")
+		await get_tree().create_timer(10.0).timeout
 		get_tree().change_scene_to_file("res://main_menu.tscn")
