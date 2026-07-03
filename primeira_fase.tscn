@@ -208,10 +208,10 @@ text = "01:00"
 horizontal_alignment = 1
 
 [node name="MessageLabel" type="Label" parent="HUD" unique_id=1065016840]
-offset_left = 300.0
-offset_top = 250.0
-offset_right = 860.0
-offset_bottom = 380.0
+offset_left = 43.0
+offset_top = 178.0
+offset_right = 1120.0
+offset_bottom = 487.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -241,6 +241,14 @@ offset_bottom = 52.0
 layout_mode = 2
 texture = ExtResource("13_a638g")
 expand_mode = 2
+
+[node name="FaseLabel" type="Label" parent="HUD" unique_id=432629132]
+offset_left = 860.0
+offset_top = 14.0
+offset_right = 1136.0
+offset_bottom = 58.0
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 2
 
 [node name="ObstacleSpawner" type="Node2D" parent="." unique_id=59965253 groups=["spawner"]]
 script = ExtResource("6_spawner")

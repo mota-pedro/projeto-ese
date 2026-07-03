@@ -7,6 +7,7 @@ extends CanvasLayer
 @onready var post_label: Label = $PostLabel  # Mostra o texto do post coletado
 @onready var vignette: ColorRect = $Vignette  # Escurece as bordas quando a saúde está baixa
 @onready var invisivel_container: HBoxContainer = $InvisivelContainer
+@onready var fase_label: Label = $FaseLabel
 
 const LOW_HEALTH_THRESHOLD: float = 0.5   # abaixo de 50% o efeito começa a aparecer
 const MAX_VIGNETTE_STRENGTH: float = 0.85 # intensidade máxima (com saúde zerada)
@@ -58,6 +59,9 @@ func _update_vignette(current: int, maximum: int):
 
 func update_timer(time_str: String):
 	timer_label.text = time_str
+
+func update_fase(fase: int):
+	fase_label.text = "Fase: %d" % fase
 
 func show_message(msg: String):
 	message_label.text = msg
