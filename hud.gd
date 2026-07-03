@@ -6,6 +6,7 @@ extends CanvasLayer
 @onready var message_label: Label = $MessageLabel
 @onready var post_label: Label = $PostLabel  # Mostra o texto do post coletado
 @onready var vignette: ColorRect = $Vignette  # Escurece as bordas quando a saúde está baixa
+@onready var invisivel_container: HBoxContainer = $InvisivelContainer
 
 const LOW_HEALTH_THRESHOLD: float = 0.5   # abaixo de 50% o efeito começa a aparecer
 const MAX_VIGNETTE_STRENGTH: float = 0.85 # intensidade máxima (com saúde zerada)
@@ -13,8 +14,10 @@ const MAX_VIGNETTE_STRENGTH: float = 0.85 # intensidade máxima (com saúde zera
 var vignette_tween: Tween
 
 func _ready():
+	add_to_group("hud")
 	message_label.visible = false
 	post_label.visible = false
+	invisivel_container.visible=false
 
 func update_life(current: int, maximum: int):
 	health_bar.max_value = maximum
@@ -69,3 +72,6 @@ func show_post_feedback(text: String, is_positive: bool):
 	# Some após 2 segundos
 	await get_tree().create_timer(2.0).timeout
 	post_label.visible = false
+	
+func mostrar_invisibilidade(ativo: bool):
+	invisivel_container.visible = ativo

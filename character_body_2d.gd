@@ -6,11 +6,10 @@ const GRAVITY: float = 1100.0
 const JUMP_FORCE: float = -700.0
 const MOVE_SPEED: float = 260.0
 
-# --- Tremor de tela quando a saúde mental está baixa ---
-const LOW_HEALTH_THRESHOLD: float = 0.5  # abaixo de 50% a tela começa a tremer
-const SHAKE_MIN_INTENSITY: float = 1.5   # tremor leve logo abaixo do limite (em pixels)
-const SHAKE_MAX_INTENSITY: float = 5.0   # tremor mais forte com a saúde quase zerada
-const SHAKE_RECOVER_SPEED: float = 10.0  # velocidade com que a câmera volta ao normal
+const LOW_HEALTH_THRESHOLD: float = 0.5
+const SHAKE_MIN_INTENSITY: float = 1.5
+const SHAKE_MAX_INTENSITY: float = 5.0
+const SHAKE_RECOVER_SPEED: float = 10.0
 
 var max_health: int = 10
 var health: int = 10
@@ -19,6 +18,9 @@ var invincibility_duration: float = 1.0
 
 var last_direction: String = "right"
 var is_crouching: bool = false
+
+var imunidade_ativa: bool = false
+var imunidade_duracao: float = 5.0
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var col_normal: CollisionShape2D = $CollisionShape2D
@@ -31,42 +33,32 @@ func _ready():
 	col_crouch.disabled = true
 
 func _physics_process(delta):
-	# Gravidade
 	if not is_on_floor():
 		velocity.y += GRAVITY * delta
 	else:
 		if velocity.y > 0:
 			velocity.y = 0.0
 
-	# Movimento horizontal
 	var direction := Input.get_axis("ui_left", "ui_right")
 	velocity.x = direction * MOVE_SPEED
 
-	# Aplicar animação + colisão
 	_update_state_and_animation(direction)
 
-	# Pulo (só se não estiver agachado)
 	if not is_crouching and (Input.is_action_just_pressed("ui_accept") \
 		or Input.is_action_just_pressed("ui_up")) and is_on_floor():
 		velocity.y = JUMP_FORCE
 
 	move_and_slide()
-
 	_apply_low_health_shake(delta)
 
 func _update_state_and_animation(direction: float) -> void:
-	# Atualiza última direção
 	if direction > 0:
 		last_direction = "right"
 	elif direction < 0:
 		last_direction = "left"
 
-	# --- 1) CÁLCULO DE ESTADO ---
-
-	# Quer agachar?
 	var wants_to_crouch := is_on_floor() and Input.is_action_pressed("ui_down")
 
-	# Atualiza estado de agachar UMA vez por frame
 	if wants_to_crouch and not is_crouching:
 		is_crouching = true
 		col_normal.disabled = true
@@ -76,15 +68,11 @@ func _update_state_and_animation(direction: float) -> void:
 		col_normal.disabled = false
 		col_crouch.disabled = true
 
-	# --- 2) ESCOLHA DE ANIMAÇÃO (usa só os estados prontos) ---
-
-	# Agachado sempre ganha
 	if is_crouching:
 		if anim.animation != "crouch":
 			anim.play("crouch")
 		return
 
-	# No ar
 	if not is_on_floor():
 		if last_direction == "right":
 			if anim.animation != "jump_right":
@@ -94,7 +82,6 @@ func _update_state_and_animation(direction: float) -> void:
 				anim.play("jump_left")
 		return
 
-	# Em pé no chão
 	if direction > 0:
 		if anim.animation != "walk_right":
 			anim.play("walk_right")
@@ -110,7 +97,7 @@ func _update_state_and_animation(direction: float) -> void:
 				anim.play("idle_left")
 
 func take_damage(amount: int):
-	if is_invincible:
+	if is_invincible or imunidade_ativa:  # ← ambos bloqueiam dano
 		return
 	health = max(0, health - amount)
 	emit_signal("health_changed", health, max_health)
@@ -139,7 +126,6 @@ func _apply_low_health_shake(delta: float):
 	var pct = float(health) / float(max_health)
 
 	if pct <= LOW_HEALTH_THRESHOLD and pct > 0.0:
-		# quanto mais perto de 0, mais forte o tremor (mas sempre leve/sutil)
 		var t = 1.0 - (pct / LOW_HEALTH_THRESHOLD)
 		var intensity = lerp(SHAKE_MIN_INTENSITY, SHAKE_MAX_INTENSITY, t)
 		camera.offset = Vector2(
@@ -147,5 +133,26 @@ func _apply_low_health_shake(delta: float):
 			randf_range(-intensity, intensity)
 		)
 	else:
-		# saúde ok (ou zerada/game over): a câmera volta suavemente ao centro
 		camera.offset = camera.offset.lerp(Vector2.ZERO, delta * SHAKE_RECOVER_SPEED)
+
+func ativar_imunidade():
+	if imunidade_ativa:
+		return
+	imunidade_ativa = true
+	
+	var hud = get_tree().get_first_node_in_group("hud")
+	if hud:
+		hud.mostrar_invisibilidade(true)
+
+	# Transparência da imunidade — não interfere com o piscar do dano
+	var tween = create_tween()
+	tween.tween_property(anim, "modulate:a", 0.4, 0.3)
+
+	await get_tree().create_timer(imunidade_duracao).timeout
+
+	imunidade_ativa = false
+	tween = create_tween()
+	tween.tween_property(anim, "modulate:a", 1.0, 0.3)
+	
+	if is_instance_valid(hud):
+		hud.mostrar_invisibilidade(false)

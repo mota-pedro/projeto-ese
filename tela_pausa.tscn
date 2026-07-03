@@ -1,29 +1,34 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://46vuxk7otjrd"]
 
-[ext_resource type="Script" path="res://tela_pausa.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://csk1a5b0v0dgc" path="res://tela_pausa.gd" id="1_script"]
 [ext_resource type="FontFile" uid="uid://cctrsnqmlauw6" path="res://assets/fonts/minecraft/Minecraft.ttf" id="2_font"]
-[ext_resource type="Texture2D" path="res://assets/pausa/nuvem.png" id="3_nuvem"]
-[ext_resource type="Texture2D" path="res://assets/pausa/banco.png" id="4_banco"]
+[ext_resource type="Texture2D" uid="uid://dj2ewvvpljjlj" path="res://assets/pausa/nuvem.png" id="3_nuvem"]
+[ext_resource type="Texture2D" uid="uid://byil5fl6m4kcf" path="res://assets/itens/banco.png" id="3_x081a"]
 [ext_resource type="Texture2D" uid="uid://b50q4t2rbsnp7" path="res://assets/player/deFrente.png" id="5_player"]
 
-[node name="TelaPausa" type="Control"]
+[node name="TelaPausa" type="Control" unique_id=217366443]
+layout_mode = 3
+anchors_preset = 0
 offset_right = 1152.0
 offset_bottom = 648.0
 mouse_filter = 2
 script = ExtResource("1_script")
 
-[node name="Ceu" type="ColorRect" parent="."]
+[node name="Ceu" type="ColorRect" parent="." unique_id=661639868]
+layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0.262745, 0.509804, 0.843137, 1)
 
-[node name="Chao" type="ColorRect" parent="."]
+[node name="Chao" type="ColorRect" parent="." unique_id=964242935]
+layout_mode = 0
 offset_top = 530.0
 offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0.305882, 0.560784, 0.168627, 1)
 
-[node name="Nuvem1" type="TextureRect" parent="."]
+[node name="Nuvem1" type="TextureRect" parent="." unique_id=1410945293]
+layout_mode = 0
 offset_left = 40.0
 offset_top = 36.0
 offset_right = 270.0
@@ -32,7 +37,8 @@ texture = ExtResource("3_nuvem")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Nuvem2" type="TextureRect" parent="."]
+[node name="Nuvem2" type="TextureRect" parent="." unique_id=1862569709]
+layout_mode = 0
 offset_left = 800.0
 offset_top = 66.0
 offset_right = 1080.0
@@ -41,25 +47,28 @@ texture = ExtResource("3_nuvem")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Banco" type="TextureRect" parent="."]
-offset_left = 590.0
-offset_top = 390.0
-offset_right = 850.0
-offset_bottom = 552.0
-texture = ExtResource("4_banco")
+[node name="Banco" type="TextureRect" parent="." unique_id=350665103]
+layout_mode = 0
+offset_left = 572.0
+offset_top = 431.0
+offset_right = 805.0
+offset_bottom = 556.0
+texture = ExtResource("3_x081a")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Personagem" type="TextureRect" parent="."]
-offset_left = 380.0
-offset_top = 340.0
-offset_right = 550.0
-offset_bottom = 530.0
+[node name="Personagem" type="TextureRect" parent="." unique_id=336742695]
+layout_mode = 0
+offset_left = 426.0
+offset_top = 351.0
+offset_right = 665.0
+offset_bottom = 592.0
 texture = ExtResource("5_player")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="FaseLabel" type="Label" parent="."]
+[node name="FaseLabel" type="Label" parent="." unique_id=1596735418]
+layout_mode = 0
 offset_left = 900.0
 offset_top = 24.0
 offset_right = 1120.0
@@ -68,32 +77,22 @@ theme_override_font_sizes/font_size = 24
 text = "Fase atual: 1"
 horizontal_alignment = 2
 
-[node name="TituloLabel" type="Label" parent="."]
-offset_left = 0.0
-offset_top = 110.0
+[node name="TituloLabel" type="Label" parent="." unique_id=1427116189]
+layout_mode = 0
+offset_top = 133.0
 offset_right = 1152.0
-offset_bottom = 180.0
-theme_override_fonts/font = ExtResource("2_font")
-theme_override_font_sizes/font_size = 50
+offset_bottom = 212.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
-text = "Você fez uma pausa"
-horizontal_alignment = 1
-
-[node name="SubtituloLabel" type="Label" parent="."]
-offset_left = 176.0
-offset_top = 192.0
-offset_right = 976.0
-offset_bottom = 250.0
 theme_override_fonts/font = ExtResource("2_font")
-theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "Você resistiu à pressão das redes sociais. Continue se cuidando!"
+theme_override_font_sizes/font_size = 32
+text = "É importante fazer pausas 
+ao usar redes sociais"
 horizontal_alignment = 1
-autowrap_mode = 2
 
-[node name="Menu" type="Button" parent="."]
+[node name="Menu" type="Button" parent="." unique_id=1262090052]
+layout_mode = 0
 offset_left = 40.0
 offset_top = 574.0
 offset_right = 200.0
@@ -101,7 +100,8 @@ offset_bottom = 624.0
 theme_override_font_sizes/font_size = 24
 text = "Menu"
 
-[node name="ProximaFase" type="Button" parent="."]
+[node name="ProximaFase" type="Button" parent="." unique_id=1684681109]
+layout_mode = 0
 offset_left = 912.0
 offset_top = 574.0
 offset_right = 1112.0
