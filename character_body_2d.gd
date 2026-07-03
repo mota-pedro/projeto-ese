@@ -11,6 +11,8 @@ const SHAKE_MIN_INTENSITY: float = 1.5
 const SHAKE_MAX_INTENSITY: float = 5.0
 const SHAKE_RECOVER_SPEED: float = 10.0
 
+const DAMAGE_NUMBER = preload("res://damage_number.tscn")
+
 var max_health: int = 10
 var health: int = 10
 var is_invincible: bool = false
@@ -101,6 +103,7 @@ func take_damage(amount: int):
 		return
 	health = max(0, health - amount)
 	emit_signal("health_changed", health, max_health)
+	_spawn_feedback(amount, false)
 	_start_invincibility()
 	if health <= 0:
 		pass
@@ -108,6 +111,7 @@ func take_damage(amount: int):
 func heal(amount: int):
 	health = min(max_health, health + amount)
 	emit_signal("health_changed", health, max_health)
+	_spawn_feedback(amount, true)
 
 func _start_invincibility():
 	is_invincible = true
@@ -156,3 +160,9 @@ func ativar_imunidade():
 	
 	if is_instance_valid(hud):
 		hud.mostrar_invisibilidade(false)
+		
+func _spawn_feedback(valor: int, positivo: bool):
+	var numero = DAMAGE_NUMBER.instantiate()
+	get_tree().current_scene.add_child(numero)
+	numero.global_position = global_position + Vector2(0, -60)
+	numero.setup(valor*10, positivo)

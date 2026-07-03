@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://58pkq0fpabdm"]
+
+[ext_resource type="Script" uid="uid://dteb8e4n4h5ev" path="res://damage_number.gd" id="1_jany0"]
+
+[node name="DamageNumber" type="Node2D" unique_id=1375722552]
+script = ExtResource("1_jany0")
+
+[node name="Label" type="Label" parent="." unique_id=208748221]
+offset_right = 40.0
+offset_bottom = 16.0
+theme_override_font_sizes/font_size = 22
