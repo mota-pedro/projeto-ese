@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://g4lc03hbvkhu"]
+
+[ext_resource type="Script" uid="uid://bfklnhyh6vg6m" path="res://agua.gd" id="1_2mug6"]
+[ext_resource type="Texture2D" uid="uid://c33eii2cxpami" path="res://assets/itens/agua.png" id="1_ldk1s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bkt1y"]
+size = Vector2(30, 60)
+
+[node name="Agua" type="Area2D" unique_id=493814906]
+script = ExtResource("1_2mug6")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=214757492]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_ldk1s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=606145742]
+shape = SubResource("RectangleShape2D_bkt1y")

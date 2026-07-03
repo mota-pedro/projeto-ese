@@ -17,7 +17,9 @@
 [ext_resource type="PackedScene" uid="uid://b8qrbxkps4rin" path="res://background.tscn" id="9_iq7u4"]
 [ext_resource type="Script" uid="uid://bvxd8kgq8kp4i" path="res://abismo_gradiente.gd" id="11_iq7u4"]
 [ext_resource type="Script" uid="uid://ce2molxjd0sk2" path="res://ground_limit.gd" id="12_grmxh"]
-[ext_resource type="Shader" path="res://assets/shaders/vignette.gdshader" id="13_vignette"]
+[ext_resource type="Texture2D" uid="uid://cmi3qpguyjt27" path="res://assets/hud/invisivel.png" id="13_a638g"]
+[ext_resource type="Shader" uid="uid://kc3e2guimcq5" path="res://assets/shaders/vignette.gdshader" id="13_vignette"]
+[ext_resource type="PackedScene" uid="uid://g4lc03hbvkhu" path="res://agua.tscn" id="19_c40r0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(62, 114)
@@ -112,6 +114,13 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vignette"]
+shader = ExtResource("13_vignette")
+shader_parameter/strength = 0.0
+shader_parameter/radius = 0.75
+shader_parameter/softness = 0.55
+shader_parameter/vignette_color = Color(0, 0, 0, 1)
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_737v7"]
 texture = ExtResource("8_ldxxv")
 0:0/0 = 0
@@ -140,13 +149,6 @@ fill_to = Vector2(0, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hq41x"]
 size = Vector2(39556, 2020)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vignette"]
-shader = ExtResource("13_vignette")
-shader_parameter/strength = 0.0
-shader_parameter/radius = 0.75
-shader_parameter/softness = 0.55
-shader_parameter/vignette_color = Color(0, 0, 0, 1)
 
 [node name="Node2D" type="Node2D" unique_id=2052663765]
 script = ExtResource("1_main")
@@ -195,7 +197,7 @@ offset_top = 48.0
 offset_right = 200.0
 offset_bottom = 70.0
 theme_override_font_sizes/font_size = 13
-text = "🧠 Saúde Mental"
+text = "Saúde Mental"
 
 [node name="TimerLabel" type="Label" parent="HUD" unique_id=1560495774]
 offset_top = 12.0
@@ -223,12 +225,22 @@ theme_override_font_sizes/font_size = 18
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Vignette" type="ColorRect" parent="HUD"]
-mouse_filter = 2
+[node name="Vignette" type="ColorRect" parent="HUD" unique_id=2082781048]
+material = SubResource("ShaderMaterial_vignette")
 offset_right = 1152.0
 offset_bottom = 648.0
-color = Color(1, 1, 1, 1)
-material = SubResource("ShaderMaterial_vignette")
+mouse_filter = 2
+
+[node name="InvisivelContainer" type="HBoxContainer" parent="HUD" unique_id=1853523743]
+offset_left = 292.0
+offset_top = 8.0
+offset_right = 342.0
+offset_bottom = 52.0
+
+[node name="TextureRect" type="TextureRect" parent="HUD/InvisivelContainer" unique_id=629822666]
+layout_mode = 2
+texture = ExtResource("13_a638g")
+expand_mode = 2
 
 [node name="ObstacleSpawner" type="Node2D" parent="." unique_id=59965253 groups=["spawner"]]
 script = ExtResource("6_spawner")
@@ -255,3 +267,12 @@ script = ExtResource("12_grmxh")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GroundLimit" unique_id=924244944]
 position = Vector2(17728, 2743)
 shape = SubResource("RectangleShape2D_hq41x")
+
+[node name="Agua1" parent="." unique_id=493814906 instance=ExtResource("19_c40r0")]
+position = Vector2(5318, 112)
+
+[node name="Agua2" parent="." unique_id=1338059140 instance=ExtResource("19_c40r0")]
+position = Vector2(11412, 896)
+
+[node name="Agua3" parent="." unique_id=1323214995 instance=ExtResource("19_c40r0")]
+position = Vector2(21436, 511)

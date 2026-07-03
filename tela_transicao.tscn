@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://cub57btu8co34"]
+
+[ext_resource type="Script" uid="uid://bo8hvcooylrb" path="res://tela_transicao.gd" id="1_fwcgn"]
+
+[node name="TelaTransicao" type="Control" unique_id=44668924]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_fwcgn")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=509052080]
+layout_mode = 0
+offset_right = 1162.0
+offset_bottom = 656.0
+color = Color(0, 0.003921569, 0.101960786, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1688792290]
+layout_mode = 0
+offset_left = 401.0
+offset_top = 283.0
+offset_right = 742.0
+offset_bottom = 347.0
+accessibility_region = true
+
+[node name="Label" type="Label" parent="CenterContainer" unique_id=673671781]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Você fez uma pausa..."
