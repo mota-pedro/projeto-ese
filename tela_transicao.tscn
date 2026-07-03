@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cub57btu8co34"]
 
 [ext_resource type="Script" uid="uid://bo8hvcooylrb" path="res://tela_transicao.gd" id="1_fwcgn"]
+[ext_resource type="FontFile" uid="uid://cctrsnqmlauw6" path="res://assets/fonts/minecraft/Minecraft.ttf" id="2_a2r4m"]
 
 [node name="TelaTransicao" type="Control" unique_id=44668924]
 layout_mode = 3
@@ -23,5 +24,6 @@ accessibility_region = true
 
 [node name="Label" type="Label" parent="CenterContainer" unique_id=673671781]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_a2r4m")
 theme_override_font_sizes/font_size = 32
 text = "Você fez uma pausa..."
